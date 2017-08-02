@@ -238,7 +238,7 @@ class JenkinsCli(object):
     def start(self, args):
         for job in args.job_name:
             job_name = self._check_job(job)
-            start_status = self.jenkins.build_job(job_name)
+            start_status = self.jenkins.build_job(job_name, parameters=args.bargs)
             print("%s: %s" % (job_name, 'started' if not start_status else start_status))
 
     def _get_build_changesets(self, build):

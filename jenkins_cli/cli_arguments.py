@@ -3,6 +3,16 @@ import argparse
 from jenkins_cli.cli import get_jobs_legend
 from jenkins_cli.version import version
 
+def string_to_dict(s):
+    try:
+        _d = {}
+        for x in s.split():
+            k,v = x.split(':')
+            _d[k] = v
+        return _d
+    except:
+        return None
+
 
 def load_parser():
     """
@@ -23,6 +33,7 @@ def load_parser():
     parser.add_argument('-e', '--environment',
                         help='Which config section to use')
 
+
     subparsers = parser.add_subparsers(title='Available commands', dest='jenkins_command')
 
     jobs_parser = subparsers.add_parser('jobs',
@@ -41,6 +52,7 @@ def load_parser():
 
     start_parser = subparsers.add_parser('start', help='Start job')
     start_parser.add_argument('job_name', help='Job to start', nargs='*')
+    start_parser.add_argument('--bargs', metavar='bargs', help='Build arguments. (in key1:value1 key2:value2 format)', default=None, type=string_to_dict)
 
     start_parser = subparsers.add_parser('info', help='Job info')
     start_parser.add_argument('job_name', help='Job to get info for')
